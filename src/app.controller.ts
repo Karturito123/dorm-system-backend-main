@@ -8,6 +8,4 @@ export class AppController {
       message: `Hello world from Dorm system 🥳 The time now is ${new Date().getTime().toLocaleString()}`,
     };
   }
-  
-  
 }

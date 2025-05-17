@@ -2,10 +2,37 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
     args:
       - gcloud
+      - services
+      - enable
+      - cloudfunctions.googleapis.com
+      - cloudscheduler.googleapis.com
+      - run.googleapis.com
+
+  # Scheduler
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        if ! gcloud scheduler jobs describe publish-job --location=$LOCATION > /dev/null 2>&1; then
+          echo "Creating Cloud Scheduler job..."
+          gcloud scheduler jobs create http publish-job \
+            --schedule="*/5 * * * *" \
+            --uri="https://$LOCATION-$PROJECT_ID.cloudfunctions.net/api/notification/bill" \
+            --http-method=POST \
+            --location=$LOCATION
+        else
+          echo "Scheduler job already exists. Skipping."
+        fi
+
+  # Cloud function
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+    args:
+      - gcloud
       - functions
       - deploy
       - api
-      - '--region=asia-east1'
+      - '--region=$LOCATION'
       - '--source=.'
       - '--trigger-http' #the function can be accesed with the browser
       - '--runtime=nodejs20'
