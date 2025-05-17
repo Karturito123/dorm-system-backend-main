@@ -56,9 +56,6 @@ export class BillService {
     const startTimestamp = Timestamp.fromDate(startUTCDate).toDate();
     const endTimestamp = Timestamp.fromDate(endUTCDate).toDate();
 
-    console.log('startTimestamp', startTimestamp);
-    console.log('startUTCDate', startUTCDate);
-
     const snapshot = await this.firebase
       .initCollection('water_consumption')
       .where('uid', '==', uid)

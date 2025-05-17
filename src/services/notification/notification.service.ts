@@ -84,13 +84,12 @@ export class NotificationService {
       for (const notif of notifs) {
         const { message, user } = notif;
         const { id: uid, mobileNo } = user;
-        // const contact = {
-        //   uid,
-        //   mobileNo,
-        //   ...rest,
-        // };
+        const contact = {
+          uid,
+          mobileNo,
+        };
 
-        // const sid = await this.messageService.sendMessage(contact, message);
+        const sid = await this.messageService.sendMessage(contact, message);
 
         messagesRef = await this.firebase.initCollection('messages').add({
           message: message,
@@ -101,7 +100,7 @@ export class NotificationService {
         result.push({
           status: 'success',
           mobileNo,
-          id: messagesRef.id,
+          id: sid,
           timestamp: messageData.createTime.toDate(),
           ...messageData.data(),
         });
