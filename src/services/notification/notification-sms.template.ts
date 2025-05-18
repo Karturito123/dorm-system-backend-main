@@ -5,8 +5,8 @@ export const notifBillTemplate = (data: TenantConsumptionBill) => {
   const { firstName, lastName } = user;
   const { totalConsumption, totalPricePerMeter, totalBill } = bill;
   return `Hi ${firstName} ${lastName}, your water bill is ready. 
-  Total Consumption: ${totalConsumption} per m3. 
-  Average Price: ₱${totalPricePerMeter} per m3. 
-  Total Bill: ₱${totalBill} 
+  Total Consumption: ${totalConsumption} pesos per m3. 
+  Average Price:${totalPricePerMeter} pesos per m3. 
+  Total Bill: ${totalBill} 
   Thank you!`;
 };
