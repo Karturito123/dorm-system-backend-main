@@ -1,3 +1,4 @@
+import { OmitType, PartialType } from '@nestjs/mapped-types';
 import {
   IsEmail,
   IsNotEmpty,
@@ -29,6 +30,8 @@ export class UserDTO {
   lastName: string;
 }
 
-export type CreateUserDTO = Omit<UserDTO, 'id'>;
+export class CreateUserDTO extends OmitType(UserDTO, ['id'] as const) {}
 
-export type UpdateUserDTO = Partial<Omit<UserDTO, 'email'>>;
+export class UpdateUserDTO extends PartialType(
+  OmitType(UserDTO, ['email'] as const),
+) {}

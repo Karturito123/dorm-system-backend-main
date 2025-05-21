@@ -11,9 +11,12 @@ export class UserService {
   readonly serviceName = 'user-service';
   constructor(private firebase: FirebaseService) {}
 
-  async createUser(user: CreateUserDTO) {
+  async createUser({ password, ...user }: CreateUserDTO) {
     try {
-      const { uid } = await this.firebase.auth.createUser(user);
+      const { uid } = await this.firebase.auth.createUser({
+        ...user,
+        password,
+      });
       const userRef = this.firebase.initCollection('users').doc(uid);
 
       await userRef.set({
