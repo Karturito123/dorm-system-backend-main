@@ -16,7 +16,7 @@ export class WaterPriceSettingService {
         .limit(1)
         .get();
 
-      const latestPrice = snapshot.docs[0];
+      const latestPrice = snapshot.docs[0].data()['price'];
 
       return latestPrice;
     } catch (error) {
